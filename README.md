@@ -184,4 +184,4 @@ schtasks /create /tn "EPL model update" /sc weekly /d MON,THU /st 09:00 /tr "cmd
 
 ## Data & licence
 Match data © [football-data.co.uk](https://www.football-data.co.uk/), used for non-commercial,
-educational purposes.
+educational purposes. Code is released under the [MIT License](LICENSE).
