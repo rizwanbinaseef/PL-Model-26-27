@@ -1,0 +1,53 @@
+name: Weekly model update
+
+on:
+  schedule:
+    - cron: "0 9 * * 1,4"   # Mondays and Thursdays 09:00 UTC (after weekend / midweek rounds)
+  workflow_dispatch:        # manual "Run workflow" button
+
+permissions:
+  contents: write
+
+concurrency:
+  group: model-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Download data
+        run: python -m src.ingest
+
+      - name: Run tests
+        run: pytest -q -p no:warnings
+
+      - name: Score new gameweeks, retrain, predict upcoming fixtures
+        run: python update_model.py --no-download
+
+      - name: Regenerate charts
+        run: |
+          python plot_tracking.py --all
+          python plot_tracking.py || echo "No October-November gameweeks logged yet"
+
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/tracking.csv data/predictions.csv data/upcoming_predictions.csv reports/
+          if git diff --cached --quiet; then
+            echo "No new results."
+          else
+            git commit -m "Update tracking after gameweek results ($(date -u +%Y-%m-%d))"
+            git push
+          fi

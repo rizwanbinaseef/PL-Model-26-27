@@ -1,5 +1,8 @@
 # EPL Match Outcome Predictor
 
+[![Tests](https://github.com/rizwanbinaseef/PL-Model-26-27/actions/workflows/ci.yml/badge.svg)](https://github.com/rizwanbinaseef/PL-Model-26-27/actions/workflows/ci.yml)
+[![Weekly model update](https://github.com/rizwanbinaseef/PL-Model-26-27/actions/workflows/update.yml/badge.svg)](https://github.com/rizwanbinaseef/PL-Model-26-27/actions/workflows/update.yml)
+
 An end-to-end, automated machine-learning pipeline that predicts Premier League match
 outcomes (home win / draw / away win). It retrains itself after every gameweek of the
 2026-27 season and keeps a running, strictly out-of-sample record of how it performs.
@@ -124,7 +127,9 @@ Useful flags: `update_model.py --as-of 2026-10-06` (pretend today is a given dat
 `--no-download` (work offline from `data/raw`).
 
 ### Scheduling
-Run after each weekend and midweek round, e.g. Mondays and Thursdays at 09:00.
+In this repo the update runs automatically via GitHub Actions ([`.github/workflows/update.yml`](.github/workflows/update.yml)) every Monday and Thursday at 09:00 UTC: it downloads new results, runs the tests, scores and logs completed gameweeks, retrains, regenerates the charts and commits the results. It can also be triggered manually from the Actions tab.
+
+To run it on your own machine instead:
 
 **cron (Linux/macOS)**
 ```
