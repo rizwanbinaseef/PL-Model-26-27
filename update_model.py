@@ -77,6 +77,20 @@ def score_gameweek(data: pd.DataFrame, gw_rows: pd.DataFrame, params: dict):
     return metrics, pd.concat(preds, ignore_index=True), len(train)
 
 
+def tracking_rows(season: str, gw: int, rows: pd.DataFrame, metrics: dict, n_train: int) -> list[dict]:
+    """One tracking.csv row per model for a scored gameweek (and print a summary line)."""
+    summary = "  ".join(f"{k}: acc {v['accuracy']:.3f} / ll {v['log_loss']:.3f}" for k, v in metrics.items())
+    print(f"  GW{gw:>2} {rows['Kickoff'].min():%d %b}-{rows['Kickoff'].max():%d %b} "
+          f"({len(rows)} matches, trained on {n_train})  {summary}")
+    return [{
+        "season": season, "gameweek": gw,
+        "start_date": rows["Kickoff"].min().date(), "end_date": rows["Kickoff"].max().date(),
+        "n_matches": m["n"], "model": model, "accuracy": round(m["accuracy"], 4),
+        "log_loss": round(m["log_loss"], 4), "rps": round(m["rps"], 4),
+        "n_train_matches": n_train, "logged_at": datetime.now().isoformat(timespec="seconds"),
+    } for model, m in metrics.items()]
+
+
 def _pred_frame(df: pd.DataFrame, model: str, proba: np.ndarray) -> pd.DataFrame:
     out = df[["match_id", "Kickoff", "HomeTeam", "AwayTeam", "FTR"]].copy()
     out["model"] = model
@@ -104,17 +118,7 @@ def run(as_of: pd.Timestamp, download: bool = True) -> pd.DataFrame:
         metrics, preds, n_train = score_gameweek(data, rows, params)
         preds.insert(0, "gameweek", gw)
         new_preds.append(preds)
-        for model, m in metrics.items():
-            new_rows.append({
-                "season": CURRENT_LABEL, "gameweek": gw,
-                "start_date": rows["Kickoff"].min().date(), "end_date": rows["Kickoff"].max().date(),
-                "n_matches": m["n"], "model": model, "accuracy": round(m["accuracy"], 4),
-                "log_loss": round(m["log_loss"], 4), "rps": round(m["rps"], 4),
-                "n_train_matches": n_train, "logged_at": datetime.now().isoformat(timespec="seconds"),
-            })
-        summary = "  ".join(f"{k}: acc {v['accuracy']:.3f} / ll {v['log_loss']:.3f}" for k, v in metrics.items())
-        print(f"  GW{gw:>2} {rows['Kickoff'].min():%d %b}-{rows['Kickoff'].max():%d %b} "
-              f"({len(rows)} matches, trained on {n_train})  {summary}")
+        new_rows += tracking_rows(CURRENT_LABEL, gw, rows, metrics, n_train)
 
     if new_rows:
         tracking = pd.concat([tracking, pd.DataFrame(new_rows)], ignore_index=True)

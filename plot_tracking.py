@@ -8,6 +8,7 @@ Usage:
     python plot_tracking.py                       # Oct-Nov 2026 (default window)
     python plot_tracking.py --all                 # whole season so far
     python plot_tracking.py --start 2026-10-01 --end 2026-11-30 --out reports/x.png
+    python plot_tracking.py --tracking data/backtest_2025_26.csv --start 2025-10-01         --end 2025-11-30 --out reports/backtest_oct_nov_2025.png
 """
 from __future__ import annotations
 
@@ -99,17 +100,19 @@ def main() -> None:
     p.add_argument("--start", default="2026-10-01")
     p.add_argument("--end", default="2026-11-30")
     p.add_argument("--all", action="store_true", help="ignore --start/--end, plot every logged gameweek")
+    p.add_argument("--tracking", type=Path, default=TRACKING, help="tracking-format CSV to plot")
     p.add_argument("--out", type=Path, default=ROOT / "reports" / "tracking_oct_nov_2026.png")
     args = p.parse_args()
 
-    df = pd.read_csv(TRACKING, parse_dates=["start_date", "end_date"])
+    df = pd.read_csv(args.tracking, parse_dates=["start_date", "end_date"])
+    season = df["season"].iloc[0] if len(df) else ""
     if args.all:
-        window, title = df, "EPL 2026-27: out-of-sample performance by gameweek"
+        window, title = df, f"EPL {season}: out-of-sample performance by gameweek"
         if args.out.name == "tracking_oct_nov_2026.png":
             args.out = args.out.with_name("tracking_season_2026_27.png")
     else:
         window = df[(df["start_date"] >= args.start) & (df["end_date"] <= args.end)]
-        title = f"EPL 2026-27: out-of-sample performance, {pd.Timestamp(args.start):%d %b} to {pd.Timestamp(args.end):%d %b %Y}"
+        title = f"EPL {season}: out-of-sample performance, {pd.Timestamp(args.start):%d %b} to {pd.Timestamp(args.end):%d %b %Y}"
     if window.empty:
         sys.exit(f"No gameweeks logged between {args.start} and {args.end} yet "
                  f"({len(df['gameweek'].unique())} logged in total). Use --all to plot everything.")
@@ -121,7 +124,7 @@ def main() -> None:
                              "log_loss": (d["log_loss"] * d["n_matches"]).sum() / d["n_matches"].sum()}),
         include_groups=False)
     print(summary.round(3).to_string())
-    print(f"\nSaved {args.out.relative_to(ROOT)}")
+    print(f"\nSaved {args.out}")
 
 
 if __name__ == "__main__":
