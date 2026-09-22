@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Data & models (regenerable from scripts)
+data/raw/*.csv
+data/processed/*.csv
+models/*.joblib
+!data/tracking.csv
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
