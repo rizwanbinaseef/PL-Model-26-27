@@ -55,6 +55,25 @@ outcomes.*
   almost never the single most likely outcome, which caps accuracy near 50% and is why
   probabilistic metrics (log loss, RPS) matter more than accuracy here.
 
+### Backtest: October-November 2025
+
+To show what the live record will look like, `backtest.py` replays the exact weekly update
+procedure over October-November 2025. Each gameweek is predicted by a model trained only on
+matches before its first kickoff, using the same code path as `update_model.py`.
+
+![Backtest, Oct-Nov 2025](reports/backtest_oct_nov_2025.png)
+
+| Oct-Nov 2025 (7 gameweeks, 70 matches) | Accuracy | Log loss ↓ |
+|---|---:|---:|
+| Logistic regression | 60.0% | 0.936 |
+| XGBoost | 58.6% | 0.934 |
+| Bookmaker closing odds | 61.4% | 0.927 |
+
+The models stay within ~0.01 log loss of the bookmaker across the whole window. Absolute accuracy is
+well above the full-season figure (~48-49%), but the bookmaker's accuracy rose by the same amount:
+this stretch of fixtures was simply more predictable. The gap to the market is the meaningful
+comparison, not the raw accuracy.
+
 ### Live 2026-27 season
 
 `data/tracking.csv` holds a row per gameweek per model, appended automatically after each
@@ -120,6 +139,7 @@ python -m src.ingest               # download all seasons
 python -m src.train                # train + evaluate on 2025-26 -> models/evaluation.json
 python update_model.py             # score new gameweeks, retrain, predict upcoming fixtures
 python plot_tracking.py            # Oct-Nov 2026 chart (use --all for the whole season)
+python backtest.py                 # replay the weekly loop over Oct-Nov 2025
 pytest                             # run the test suite
 ```
 
@@ -149,6 +169,7 @@ schtasks /create /tn "EPL model update" /sc weekly /d MON,THU /st 09:00 /tr "cmd
 │   ├── processed/            feature table (git-ignored)
 │   ├── tracking.csv          per-gameweek live performance log
 │   ├── predictions.csv       match-level live predictions
+│   ├── backtest_2025_26.csv  Oct-Nov 2025 backtest (tracking format)
 │   └── upcoming_predictions.csv
 ├── models/                   trained models (*.joblib, git-ignored) + evaluation.json
 ├── notebooks/
@@ -161,6 +182,7 @@ schtasks /create /tn "EPL model update" /sc weekly /d MON,THU /st 09:00 /tr "cmd
 │   └── train.py              tuning, training, validation vs baselines
 ├── tests/                    leakage + correctness tests
 ├── update_model.py           weekly retrain / tracking job
+├── backtest.py               replay the weekly loop over a past window
 └── plot_tracking.py          tracking chart
 ```
 
