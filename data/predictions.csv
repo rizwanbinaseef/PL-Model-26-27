@@ -209,3 +209,33 @@ gameweek,match_id,Kickoff,HomeTeam,AwayTeam,FTR,model,p_home,p_draw,p_away,predi
 7,20261018_Leeds_Man United,2026-10-18 14:00:00,Leeds,Man United,D,bookmaker,0.378,0.281,0.341,H
 7,20261018_Nott'm Forest_Arsenal,2026-10-18 16:30:00,Nott'm Forest,Arsenal,A,bookmaker,0.1435,0.2259,0.6307,A
 7,20261019_Tottenham_Coventry,2026-10-19 20:00:00,Tottenham,Coventry,H,bookmaker,0.6157,0.2108,0.1735,H
+8,20261023_Ipswich_Nott'm Forest,2026-10-23 20:00:00,Ipswich,Nott'm Forest,D,logreg,0.2433,0.296,0.4607,A
+8,20261024_Aston Villa_Man City,2026-10-24 12:30:00,Aston Villa,Man City,H,logreg,0.297,0.2438,0.4592,A
+8,20261024_Arsenal_Everton,2026-10-24 15:00:00,Arsenal,Everton,H,logreg,0.6865,0.1872,0.1263,H
+8,20261024_Coventry_Fulham,2026-10-24 15:00:00,Coventry,Fulham,A,logreg,0.3037,0.2785,0.4178,A
+8,20261024_Chelsea_Tottenham,2026-10-24 17:30:00,Chelsea,Tottenham,A,logreg,0.5618,0.2433,0.1949,H
+8,20261025_Crystal Palace_Newcastle,2026-10-25 14:00:00,Crystal Palace,Newcastle,A,logreg,0.4482,0.2612,0.2906,H
+8,20261025_Hull_Brentford,2026-10-25 14:00:00,Hull,Brentford,D,logreg,0.2488,0.2302,0.521,A
+8,20261025_Liverpool_Brighton,2026-10-25 14:00:00,Liverpool,Brighton,H,logreg,0.4167,0.2214,0.3619,H
+8,20261025_Man United_Bournemouth,2026-10-25 14:00:00,Man United,Bournemouth,A,logreg,0.4963,0.2298,0.2739,H
+8,20261025_Sunderland_Leeds,2026-10-25 16:30:00,Sunderland,Leeds,D,logreg,0.269,0.2328,0.4982,A
+8,20261023_Ipswich_Nott'm Forest,2026-10-23 20:00:00,Ipswich,Nott'm Forest,D,xgboost,0.2964000105857849,0.29600000381469727,0.4075999855995178,A
+8,20261024_Aston Villa_Man City,2026-10-24 12:30:00,Aston Villa,Man City,H,xgboost,0.17430000007152557,0.2526000142097473,0.5730999708175659,A
+8,20261024_Arsenal_Everton,2026-10-24 15:00:00,Arsenal,Everton,H,xgboost,0.7179999947547913,0.164900004863739,0.11699999868869781,H
+8,20261024_Coventry_Fulham,2026-10-24 15:00:00,Coventry,Fulham,A,xgboost,0.36959999799728394,0.2433999925851822,0.3869999945163727,A
+8,20261024_Chelsea_Tottenham,2026-10-24 17:30:00,Chelsea,Tottenham,A,xgboost,0.5989999771118164,0.21250000596046448,0.18850000202655792,H
+8,20261025_Crystal Palace_Newcastle,2026-10-25 14:00:00,Crystal Palace,Newcastle,A,xgboost,0.3409000039100647,0.24490000307559967,0.4142000079154968,A
+8,20261025_Hull_Brentford,2026-10-25 14:00:00,Hull,Brentford,D,xgboost,0.27630001306533813,0.26499998569488525,0.4587000012397766,A
+8,20261025_Liverpool_Brighton,2026-10-25 14:00:00,Liverpool,Brighton,H,xgboost,0.3379000127315521,0.2867000102996826,0.37529999017715454,A
+8,20261025_Man United_Bournemouth,2026-10-25 14:00:00,Man United,Bournemouth,A,xgboost,0.5196999907493591,0.21369999647140503,0.26660001277923584,H
+8,20261025_Sunderland_Leeds,2026-10-25 16:30:00,Sunderland,Leeds,D,xgboost,0.3246999979019165,0.21960000693798065,0.45570001006126404,A
+8,20261023_Ipswich_Nott'm Forest,2026-10-23 20:00:00,Ipswich,Nott'm Forest,D,bookmaker,0.3011,0.2763,0.4226,A
+8,20261024_Aston Villa_Man City,2026-10-24 12:30:00,Aston Villa,Man City,H,bookmaker,0.2104,0.209,0.5806,A
+8,20261024_Arsenal_Everton,2026-10-24 15:00:00,Arsenal,Everton,H,bookmaker,0.6974,0.1888,0.1138,H
+8,20261024_Coventry_Fulham,2026-10-24 15:00:00,Coventry,Fulham,A,bookmaker,0.2871,0.2631,0.4498,A
+8,20261024_Chelsea_Tottenham,2026-10-24 17:30:00,Chelsea,Tottenham,A,bookmaker,0.5063,0.2433,0.2504,H
+8,20261025_Crystal Palace_Newcastle,2026-10-25 14:00:00,Crystal Palace,Newcastle,A,bookmaker,0.3687,0.271,0.3603,H
+8,20261025_Hull_Brentford,2026-10-25 14:00:00,Hull,Brentford,D,bookmaker,0.1934,0.2333,0.5733,A
+8,20261025_Liverpool_Brighton,2026-10-25 14:00:00,Liverpool,Brighton,H,bookmaker,0.4805,0.2465,0.273,H
+8,20261025_Man United_Bournemouth,2026-10-25 14:00:00,Man United,Bournemouth,A,bookmaker,0.3905,0.2748,0.3347,H
+8,20261025_Sunderland_Leeds,2026-10-25 16:30:00,Sunderland,Leeds,D,bookmaker,0.3572,0.3023,0.3405,H
